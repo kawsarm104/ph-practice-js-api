@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Country</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .countries{
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+
+        }
+        .country{
+            border: 2px solid rgba(255, 0, 0, 0.2);
+            margin: 10px;
+            padding: 20px;
+            border-radius: 15px;
+            
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <h3>Country Details: </h3>
+        <div id="country-detail">
+
+        </div>
+    </section>
+    <h1 >Country</h1>
+    <div id="contries" class="countries">
+
+    </div>
+  
+
+    <!-- JS  -->
+    <script>
+        const allCountry = () => {
+            fetch('https://restcountries.eu/rest/v2/all')
+                .then(res => res.json())
+                .then(data => showCountry(data))
+        }
+        allCountry()
+        const showCountry = (countries) =>{
+            const countriesDiv = document.getElementById('contries')
+           countries.forEach(country => {
+               console.log(country)
+               const div = document.createElement('div')
+               div.classList.add('country')
+               div.innerHTML = ` 
+                   <h3>${country.name}</h3>
+                   <p>${country.capital}</p>
+                   <button onclick="loadCountryByName('${country.name}')">Details</button>
+               `
+            //    const h3 = document.createElement('h3')
+            //    const p = document.createElement('p')
+            //    h3.innerText = country.name
+            //    p.innerText = country.capital
+            //    h3.style.textAlign = "center"
+            //    p.style.textAlign = "center"
+            // //    div.style.backgroundColor= "rgba(255, 0, 0, 0.2);"
+            //    div.appendChild(h3)
+            //    div.appendChild(p)
+               countriesDiv.appendChild(div)
+           });
+        }
+     const loadCountryByName = (name) =>{
+            console.log(name)
+            const url = `https://restcountries.eu/rest/v2/name/${name}`
+            console.log(url)
+            fetch(url)
+            .then(res => res.json())
+            .then(data => displayCountryDetails(data[0]))
+     }
+     const displayCountryDetails = (details) =>{
+        const countryDiv = document.getElementById('country-detail')
+        countryDiv.innerHTML = `
+          <h3>country name : ${details.name}</h3>
+     <p>country population : ${details.population}</p>
+    country flag :<br><img width="200px"src= "${details.flag}">
+        `
+     }
+    </script>
+</body>
+</html>

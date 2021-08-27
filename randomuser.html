@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User</title>
+</head>
+<body>
+    <div id="randomusers" class="text-center">
+
+    </div>
+    
+
+    <!-- JS  -->
+    <script>
+        const randomUsers = () => {
+            fetch('https://randomuser.me/api/?results=15')
+            .then(res => res.json())
+            .then(data => displayRandomUsers(data))
+        }
+        randomUsers()
+        const displayRandomUsers = (data) => {
+            const randomUser = document.getElementById('randomusers')
+            const users = data.results
+            for(const user of users){
+                // console.log(user)
+                const p = document.createElement('p')
+                p.innerText =`name: ${user.name.first} ${user.name.last} email: ${user.email} `
+                p.style.textAlign = "center";
+                randomUser.appendChild(p)
+            }
+        }
+    </script>
+</body>
+</html>
